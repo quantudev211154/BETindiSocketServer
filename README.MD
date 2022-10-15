@@ -1,0 +1,3 @@
+- Step 1: Enter "npm i" and wait for all components installing.
+- Step 2: In terminal, enter "npm run build"
+- Step 3: Open a brand new terminal, enter "npm run dev"
