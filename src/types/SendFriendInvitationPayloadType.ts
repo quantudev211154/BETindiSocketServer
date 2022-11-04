@@ -1,5 +1,5 @@
 export type SendFriendInvitationPayloadType = {
-  id: string
+  id: number
   avatar: string
   name: string
   phone: string

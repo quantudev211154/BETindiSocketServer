@@ -1,10 +1,9 @@
-import { __onlineUsers } from '..'
 import { CheckExistingUserSocketReturnType } from '../types/CheckExistingUserSocketReturnType'
 
 export const checkExistingUserSocket = (
-  userId: string
+  userId: number
 ): CheckExistingUserSocketReturnType => {
-  const pairSocketList = __onlineUsers.entries()
+  const pairSocketList = GL_ONLINE_USERS.entries()
 
   for (const pair of pairSocketList)
     if (pair[0] === userId)

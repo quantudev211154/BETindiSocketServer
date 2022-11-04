@@ -4,53 +4,65 @@ import { SendFriendInvitationPayloadType } from '../types/SendFriendInvitationPa
 import { SendMsgPayloadType } from '../types/SendMsgPayloadType'
 import { TypingPayloadType } from '../types/TypingPayloadType'
 import { checkExistingUserSocket } from '../utils/CheckExistingUserSocket'
+import { DisconnectPayloadType } from '../types/DisconnectPayloadType'
+import { RevokeMsgType } from '../types/RevokeMsgType'
 
 export const onFireConnection = ({ userId }: FireConnectionPayloadType) => {
-  const checkExistingUser = checkExistingUserSocket(userId)
-
-  checkExistingUser.status
-    ? GL_ONLINE_USERS.set(
-        userId,
-        checkExistingUser.existingUserSocketId as string
-      )
-    : GL_ONLINE_USERS.set(userId, GL_SOCKET.id)
+  GL_ONLINE_USERS.set(userId, GL_SOCKET.id)
+  console.log('NEW USER: ' + userId + ' - ' + GL_SOCKET.id)
 }
 
-export const onTypingMsg = ({ targetUserId, isTyping }: TypingPayloadType) => {
+export const onTypingMsg = ({
+  conversationId,
+  currentUserId,
+  targetUserId,
+  isTyping,
+}: TypingPayloadType) => {
   const targetUserSocket = GL_ONLINE_USERS.get(targetUserId)
 
   if (targetUserSocket)
-    GL_SOCKET.to(targetUserSocket).emit(
+    GL_IO.to(targetUserSocket as string).emit(
       SocketEventEnum.CHANGE_TYPING_STATE,
-      isTyping
+      { conversationId, currentUserId, targetUserId, isTyping }
     )
 }
 
-export const onSendMsg = ({ to, msg }: SendMsgPayloadType) => {
-  const targetUserSocket = GL_ONLINE_USERS.get(to)
+export const onSendMsg = (data: any) => {
+  const targetUserSocket = GL_ONLINE_USERS.get(data.to.id)
+  console.log(
+    `NEW MSG: [${data.message.message}, TO: ${data.to.id} - ${targetUserSocket}]`
+  )
 
-  if (targetUserSocket)
-    GL_SOCKET.to(targetUserSocket).emit(SocketEventEnum.RECEIVE_MSG, msg)
-}
-
-export const onSendFriendInvitation = ({
-  id,
-  name,
-  avatar,
-  phone,
-}: SendFriendInvitationPayloadType) => {
-  const targetUserSocket = GL_ONLINE_USERS.get(id)
-
-  const friendInvitationOwner = {
-    id,
-    name,
-    avatar,
-    phone,
+  if (targetUserSocket) {
+    GL_IO.to(targetUserSocket as string).emit(SocketEventEnum.RECEIVE_MSG, data)
   }
+}
 
-  if (targetUserSocket)
-    GL_SOCKET.to(targetUserSocket).emit(
-      SocketEventEnum.RECEIVE_FRIEND_INVITATION,
-      friendInvitationOwner
-    )
+export const onDisconnect = ({ userId }: DisconnectPayloadType) => {
+  GL_ONLINE_USERS.delete(userId)
+}
+
+export const onRevokeMsg = ({
+  conversation,
+  message,
+  targetUserId,
+}: RevokeMsgType) => {
+  const targetUserSocket = GL_ONLINE_USERS.get(targetUserId)
+
+  if (targetUserSocket) {
+    GL_IO.to(targetUserSocket as string).emit(SocketEventEnum.REVOKE_MSG, {
+      conversation,
+      message,
+      targetUserId,
+    })
+  }
+}
+
+export const onUpdateMsg = (data: any) => {
+  console.log(data)
+  const targetUserSocket = GL_ONLINE_USERS.get(data.to.id)
+
+  if (targetUserSocket) {
+    GL_IO.to(targetUserSocket as string).emit(SocketEventEnum.UPDATE_MSG, data)
+  }
 }

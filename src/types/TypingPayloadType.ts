@@ -1,6 +1,6 @@
-import { Socket } from 'socket.io'
-
 export type TypingPayloadType = {
-  targetUserId: string
+  conversationId: number
+  currentUserId: number
+  targetUserId: number
   isTyping: boolean
 }

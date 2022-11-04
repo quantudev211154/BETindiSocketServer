@@ -11,13 +11,14 @@ const io = new Server(httpServer, {
     credentials: true,
   },
 })
+global.GL_IO = io
 
 const PORT = process.env.PORT || 8000
 
 httpServer.listen(PORT, () => {
-  console.log('NOTI: Server is running on http://localhost:' + PORT)
+  console.log('NOTI: Socket server is running on http://localhost:' + PORT)
 })
 
-global.GL_ONLINE_USERS = new Map<string, string>()
+global.GL_ONLINE_USERS = new Map<number, string>()
 
 io.on('connection', handleSocketEvent)

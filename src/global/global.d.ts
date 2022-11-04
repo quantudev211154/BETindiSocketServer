@@ -1,6 +1,7 @@
-import { Socket } from 'socket.io'
+import { Server, Socket } from 'socket.io'
 
 declare global {
   var GL_SOCKET: Socket
-  var GL_ONLINE_USERS: Map<string, string>
+  var GL_ONLINE_USERS: Map<number, string>
+  var GL_IO: Server
 }

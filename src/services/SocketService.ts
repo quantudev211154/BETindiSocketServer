@@ -1,15 +1,26 @@
 import { Socket } from 'socket.io'
+import {
+  onDisconnect,
+  onFireConnection,
+  onRevokeMsg,
+  onSendMsg,
+  onTypingMsg,
+  onUpdateMsg,
+} from '../controller/SocketEventController'
 import { SocketEventEnum } from '../enum/SocketEventConstants'
 
 export const handleSocketEvent = (socket: Socket) => {
-  console.log('NOTI: A new user connected')
   global.GL_SOCKET = socket
 
-  socket.on(SocketEventEnum.FIRE_CONNECTION, () => {})
+  socket.on(SocketEventEnum.FIRE_CONNECTION, onFireConnection)
 
-  socket.on(SocketEventEnum.CHANGE_TYPING_STATE, () => {})
+  socket.on(SocketEventEnum.CHANGE_TYPING_STATE, onTypingMsg)
 
-  socket.on(SocketEventEnum.SEND_MSG, () => {})
+  socket.on(SocketEventEnum.SEND_MSG, onSendMsg)
 
-  socket.on(SocketEventEnum.SEND_FRIEND_INVITATION, () => {})
+  socket.on(SocketEventEnum.DISCONNECT, onDisconnect)
+
+  socket.on(SocketEventEnum.SEND_REVOKE_MSG_CMD, onRevokeMsg)
+
+  socket.on(SocketEventEnum.SEND_UPDATE_MSG_CMD, onUpdateMsg)
 }
