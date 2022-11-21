@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RECEIVE_CONTACT_INVITATION = exports.SEND_FRIEND_INVITATION = exports.RECEIVE_MSG = exports.SEND_MSG = exports.CHANGE_TYPING_STATE = exports.TYPING_MSG = exports.FIRE_CONNECTION = void 0;
+exports.FIRE_CONNECTION = 'FIRE_CONNECTION';
+exports.TYPING_MSG = 'TYPING_MSG';
+exports.CHANGE_TYPING_STATE = 'CHANGE_TYPING_STATE';
+exports.SEND_MSG = 'SEND_MSG';
+exports.RECEIVE_MSG = 'RECEIVE_MSG';
+exports.SEND_FRIEND_INVITATION = 'SEND_FRIEND_INVITATION';
+exports.RECEIVE_CONTACT_INVITATION = 'RECEIVE_CONTACT_INVITATION';
