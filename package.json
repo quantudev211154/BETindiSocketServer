@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -w",
+    "prebuild": "tsc -w",
+    "build": "npm run build",
+    "start": "node ./dist/index",
     "dev": "nodemon ./dist/index"
   },
   "keywords": [],
