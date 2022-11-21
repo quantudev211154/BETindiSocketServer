@@ -28,13 +28,16 @@ export const onTypingMsg = ({
 }
 
 export const onSendMsg = (data: any) => {
-  const targetUserSocket = GL_ONLINE_USERS.get(data.to.id)
-  console.log(
-    `NEW MSG: [${data.message.message}, TO: ${data.to.id} - ${targetUserSocket}]`
-  )
+  for (let iterator of data.to) {
+    console.log(iterator.id + ' ' + iterator.fullName)
+    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
 
-  if (targetUserSocket) {
-    GL_IO.to(targetUserSocket as string).emit(SocketEventEnum.RECEIVE_MSG, data)
+    if (targetUserSocket) {
+      GL_IO.to(targetUserSocket as string).emit(
+        SocketEventEnum.RECEIVE_MSG,
+        data
+      )
+    }
   }
 }
 
@@ -59,10 +62,28 @@ export const onRevokeMsg = ({
 }
 
 export const onUpdateMsg = (data: any) => {
-  console.log(data)
-  const targetUserSocket = GL_ONLINE_USERS.get(data.to.id)
+  for (let iterator of data.to) {
+    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
 
-  if (targetUserSocket) {
-    GL_IO.to(targetUserSocket as string).emit(SocketEventEnum.UPDATE_MSG, data)
+    if (targetUserSocket) {
+      GL_IO.to(targetUserSocket as string).emit(
+        SocketEventEnum.UPDATE_MSG,
+        data
+      )
+    }
+  }
+}
+
+export const onAddMembers = (data: any) => {
+  for (let iterator of data.to) {
+    console.log(data)
+    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
+
+    if (targetUserSocket) {
+      GL_IO.to(targetUserSocket as string).emit(
+        SocketEventEnum.UPDATE_MEMBERS,
+        data
+      )
+    }
   }
 }
