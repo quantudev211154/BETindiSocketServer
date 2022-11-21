@@ -76,12 +76,37 @@ export const onUpdateMsg = (data: any) => {
 
 export const onAddMembers = (data: any) => {
   for (let iterator of data.to) {
-    console.log(data)
     const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
 
     if (targetUserSocket) {
       GL_IO.to(targetUserSocket as string).emit(
         SocketEventEnum.UPDATE_MEMBERS,
+        data
+      )
+    }
+  }
+}
+
+export const onCreateConver = (data: any) => {
+  for (let iterator of data.to) {
+    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
+
+    if (targetUserSocket) {
+      GL_IO.to(targetUserSocket as string).emit(
+        SocketEventEnum.UPDATE_CONVERLIST_AFTER_CREATE,
+        data
+      )
+    }
+  }
+}
+
+export const onDeleteConver = (data: any) => {
+  for (let iterator of data.to) {
+    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
+
+    if (targetUserSocket) {
+      GL_IO.to(targetUserSocket as string).emit(
+        SocketEventEnum.UPDATE_CONVERLIST_AFTER_DELETE,
         data
       )
     }

@@ -1,6 +1,8 @@
 import { Socket } from 'socket.io'
 import {
   onAddMembers,
+  onCreateConver,
+  onDeleteConver,
   onDisconnect,
   onFireConnection,
   onRevokeMsg,
@@ -26,4 +28,8 @@ export const handleSocketEvent = (socket: Socket) => {
   socket.on(SocketEventEnum.SEND_UPDATE_MSG_CMD, onUpdateMsg)
 
   socket.on(SocketEventEnum.ADD_MEMBERS, onAddMembers)
+
+  socket.on(SocketEventEnum.CREATE_CONVER, onCreateConver)
+
+  socket.on(SocketEventEnum.DELETE_CONVER, onDeleteConver)
 }

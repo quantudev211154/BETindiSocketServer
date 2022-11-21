@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onAddMembers = exports.onUpdateMsg = exports.onRevokeMsg = exports.onDisconnect = exports.onSendMsg = exports.onTypingMsg = exports.onFireConnection = void 0;
+exports.onDeleteConver = exports.onCreateConver = exports.onAddMembers = exports.onUpdateMsg = exports.onRevokeMsg = exports.onDisconnect = exports.onSendMsg = exports.onTypingMsg = exports.onFireConnection = void 0;
 const SocketEventConstants_1 = require("../enum/SocketEventConstants");
 const onFireConnection = ({ userId }) => {
     GL_ONLINE_USERS.set(userId, GL_SOCKET.id);
@@ -49,7 +49,6 @@ const onUpdateMsg = (data) => {
 exports.onUpdateMsg = onUpdateMsg;
 const onAddMembers = (data) => {
     for (let iterator of data.to) {
-        console.log(data);
         const targetUserSocket = GL_ONLINE_USERS.get(iterator.id);
         if (targetUserSocket) {
             GL_IO.to(targetUserSocket).emit(SocketEventConstants_1.SocketEventEnum.UPDATE_MEMBERS, data);
@@ -57,3 +56,21 @@ const onAddMembers = (data) => {
     }
 };
 exports.onAddMembers = onAddMembers;
+const onCreateConver = (data) => {
+    for (let iterator of data.to) {
+        const targetUserSocket = GL_ONLINE_USERS.get(iterator.id);
+        if (targetUserSocket) {
+            GL_IO.to(targetUserSocket).emit(SocketEventConstants_1.SocketEventEnum.UPDATE_CONVERLIST_AFTER_CREATE, data);
+        }
+    }
+};
+exports.onCreateConver = onCreateConver;
+const onDeleteConver = (data) => {
+    for (let iterator of data.to) {
+        const targetUserSocket = GL_ONLINE_USERS.get(iterator.id);
+        if (targetUserSocket) {
+            GL_IO.to(targetUserSocket).emit(SocketEventConstants_1.SocketEventEnum.UPDATE_CONVERLIST_AFTER_DELETE, data);
+        }
+    }
+};
+exports.onDeleteConver = onDeleteConver;

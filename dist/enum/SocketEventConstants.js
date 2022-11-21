@@ -17,4 +17,8 @@ var SocketEventEnum;
     SocketEventEnum["UPDATE_MSG"] = "UPDATE_MSG";
     SocketEventEnum["ADD_MEMBERS"] = "ADD_MEMBERS";
     SocketEventEnum["UPDATE_MEMBERS"] = "UPDATE_MEMBERS";
+    SocketEventEnum["CREATE_CONVER"] = "CREATE_CONVER";
+    SocketEventEnum["UPDATE_CONVERLIST_AFTER_CREATE"] = "UPDATE_CONVERLIST_AFTER_CREATE";
+    SocketEventEnum["DELETE_CONVER"] = "DELETE_CONVER";
+    SocketEventEnum["UPDATE_CONVERLIST_AFTER_DELETE"] = "UPDATE_CONVERLIST_AFTER_DELETE";
 })(SocketEventEnum = exports.SocketEventEnum || (exports.SocketEventEnum = {}));
