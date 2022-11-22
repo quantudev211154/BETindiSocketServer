@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onDeleteConver = exports.onCreateConver = exports.onAddMembers = exports.onUpdateMsg = exports.onRevokeMsg = exports.onDisconnect = exports.onSendMsg = exports.onTypingMsg = exports.onFireConnection = void 0;
+exports.onChangeStatusForParticipant = exports.onDeleteConver = exports.onCreateConver = exports.onAddMembers = exports.onUpdateMsg = exports.onRevokeMsg = exports.onDisconnect = exports.onSendMsg = exports.onTypingMsg = exports.onFireConnection = void 0;
 const SocketEventConstants_1 = require("../enum/SocketEventConstants");
 const onFireConnection = ({ userId }) => {
     GL_ONLINE_USERS.set(userId, GL_SOCKET.id);
@@ -74,3 +74,10 @@ const onDeleteConver = (data) => {
     }
 };
 exports.onDeleteConver = onDeleteConver;
+const onChangeStatusForParticipant = (data) => {
+    const targetUserSocket = GL_ONLINE_USERS.get(data.to.id);
+    if (targetUserSocket) {
+        GL_IO.to(targetUserSocket).emit(SocketEventConstants_1.SocketEventEnum.UPDATE_STATUS_FOR_PARTICIPANT, data);
+    }
+};
+exports.onChangeStatusForParticipant = onChangeStatusForParticipant;

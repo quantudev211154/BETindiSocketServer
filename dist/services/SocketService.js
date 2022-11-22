@@ -14,5 +14,6 @@ const handleSocketEvent = (socket) => {
     socket.on(SocketEventConstants_1.SocketEventEnum.ADD_MEMBERS, SocketEventController_1.onAddMembers);
     socket.on(SocketEventConstants_1.SocketEventEnum.CREATE_CONVER, SocketEventController_1.onCreateConver);
     socket.on(SocketEventConstants_1.SocketEventEnum.DELETE_CONVER, SocketEventController_1.onDeleteConver);
+    socket.on(SocketEventConstants_1.SocketEventEnum.CHANGE_STATUS_FOR_PARTICIPANT, SocketEventController_1.onChangeStatusForParticipant);
 };
 exports.handleSocketEvent = handleSocketEvent;

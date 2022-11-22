@@ -112,3 +112,14 @@ export const onDeleteConver = (data: any) => {
     }
   }
 }
+
+export const onChangeStatusForParticipant = (data: any) => {
+  const targetUserSocket = GL_ONLINE_USERS.get(data.to.id)
+
+  if (targetUserSocket) {
+    GL_IO.to(targetUserSocket as string).emit(
+      SocketEventEnum.UPDATE_STATUS_FOR_PARTICIPANT,
+      data
+    )
+  }
+}

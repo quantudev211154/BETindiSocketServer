@@ -1,6 +1,7 @@
 import { Socket } from 'socket.io'
 import {
   onAddMembers,
+  onChangeStatusForParticipant,
   onCreateConver,
   onDeleteConver,
   onDisconnect,
@@ -32,4 +33,9 @@ export const handleSocketEvent = (socket: Socket) => {
   socket.on(SocketEventEnum.CREATE_CONVER, onCreateConver)
 
   socket.on(SocketEventEnum.DELETE_CONVER, onDeleteConver)
+
+  socket.on(
+    SocketEventEnum.CHANGE_STATUS_FOR_PARTICIPANT,
+    onChangeStatusForParticipant
+  )
 }
