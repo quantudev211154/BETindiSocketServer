@@ -9,7 +9,7 @@ import { RevokeMsgType } from '../types/RevokeMsgType'
 
 export const onFireConnection = ({ userId }: FireConnectionPayloadType) => {
   GL_ONLINE_USERS.set(userId, GL_SOCKET.id)
-  console.log('NEW USER: ' + userId + ' - ' + GL_SOCKET.id)
+  // console.log('NEW USER: ' + userId + ' - ' + GL_SOCKET.id)
 }
 
 export const onTypingMsg = ({
@@ -29,7 +29,7 @@ export const onTypingMsg = ({
 
 export const onSendMsg = (data: any) => {
   for (let iterator of data.to) {
-    console.log(iterator.id + ' ' + iterator.fullName)
+    // console.log(iterator.id + ' ' + iterator.fullName)
     const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
 
     if (targetUserSocket) {

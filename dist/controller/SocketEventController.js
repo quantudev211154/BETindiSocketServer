@@ -4,7 +4,7 @@ exports.onChangeConverInfo = exports.onChangeRoleOfParticipant = exports.onOutGr
 const SocketEventConstants_1 = require("../enum/SocketEventConstants");
 const onFireConnection = ({ userId }) => {
     GL_ONLINE_USERS.set(userId, GL_SOCKET.id);
-    console.log('NEW USER: ' + userId + ' - ' + GL_SOCKET.id);
+    // console.log('NEW USER: ' + userId + ' - ' + GL_SOCKET.id)
 };
 exports.onFireConnection = onFireConnection;
 const onTypingMsg = ({ conversationId, currentUserId, targetUserId, isTyping, }) => {
@@ -15,7 +15,7 @@ const onTypingMsg = ({ conversationId, currentUserId, targetUserId, isTyping, })
 exports.onTypingMsg = onTypingMsg;
 const onSendMsg = (data) => {
     for (let iterator of data.to) {
-        console.log(iterator.id + ' ' + iterator.fullName);
+        // console.log(iterator.id + ' ' + iterator.fullName)
         const targetUserSocket = GL_ONLINE_USERS.get(iterator.id);
         if (targetUserSocket) {
             GL_IO.to(targetUserSocket).emit(SocketEventConstants_1.SocketEventEnum.RECEIVE_MSG, data);
