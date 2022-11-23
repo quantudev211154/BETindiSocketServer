@@ -10,6 +10,7 @@ const io = new Server(httpServer, {
     origin: '*',
     credentials: true,
   },
+  maxHttpBufferSize: 20000,
 })
 global.GL_IO = io
 

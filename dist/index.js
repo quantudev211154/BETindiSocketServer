@@ -11,6 +11,7 @@ const io = new socket_io_1.Server(httpServer, {
         origin: '*',
         credentials: true,
     },
+    maxHttpBufferSize: 20000,
 });
 global.GL_IO = io;
 const PORT = process.env.PORT || 8000;

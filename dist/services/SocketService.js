@@ -15,5 +15,8 @@ const handleSocketEvent = (socket) => {
     socket.on(SocketEventConstants_1.SocketEventEnum.CREATE_CONVER, SocketEventController_1.onCreateConver);
     socket.on(SocketEventConstants_1.SocketEventEnum.DELETE_CONVER, SocketEventController_1.onDeleteConver);
     socket.on(SocketEventConstants_1.SocketEventEnum.CHANGE_STATUS_FOR_PARTICIPANT, SocketEventController_1.onChangeStatusForParticipant);
+    socket.on(SocketEventConstants_1.SocketEventEnum.OUT_GROUP, SocketEventController_1.onOutGroup);
+    socket.on(SocketEventConstants_1.SocketEventEnum.CHANGE_ROLE_OF_PARTICIPANT, SocketEventController_1.onChangeRoleOfParticipant);
+    socket.on(SocketEventConstants_1.SocketEventEnum.CHANGE_CONVER_INFO, SocketEventController_1.onChangeConverInfo);
 };
 exports.handleSocketEvent = handleSocketEvent;

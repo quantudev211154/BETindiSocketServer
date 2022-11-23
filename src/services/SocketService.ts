@@ -1,11 +1,14 @@
 import { Socket } from 'socket.io'
 import {
   onAddMembers,
+  onChangeConverInfo,
+  onChangeRoleOfParticipant,
   onChangeStatusForParticipant,
   onCreateConver,
   onDeleteConver,
   onDisconnect,
   onFireConnection,
+  onOutGroup,
   onRevokeMsg,
   onSendMsg,
   onTypingMsg,
@@ -38,4 +41,13 @@ export const handleSocketEvent = (socket: Socket) => {
     SocketEventEnum.CHANGE_STATUS_FOR_PARTICIPANT,
     onChangeStatusForParticipant
   )
+
+  socket.on(SocketEventEnum.OUT_GROUP, onOutGroup)
+
+  socket.on(
+    SocketEventEnum.CHANGE_ROLE_OF_PARTICIPANT,
+    onChangeRoleOfParticipant
+  )
+
+  socket.on(SocketEventEnum.CHANGE_CONVER_INFO, onChangeConverInfo)
 }

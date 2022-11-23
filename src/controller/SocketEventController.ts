@@ -123,3 +123,42 @@ export const onChangeStatusForParticipant = (data: any) => {
     )
   }
 }
+
+export const onOutGroup = (data: any) => {
+  for (let iterator of data.to) {
+    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
+
+    if (targetUserSocket) {
+      GL_IO.to(targetUserSocket as string).emit(
+        SocketEventEnum.UPDATE_CONVERLIST_AFTER_OUT,
+        data
+      )
+    }
+  }
+}
+
+export const onChangeRoleOfParticipant = (data: any) => {
+  for (let iterator of data.to) {
+    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
+
+    if (targetUserSocket) {
+      GL_IO.to(targetUserSocket as string).emit(
+        SocketEventEnum.UPDATE_CONVERLIST_AFTER_CHANGE_ROLE,
+        data
+      )
+    }
+  }
+}
+
+export const onChangeConverInfo = (data: any) => {
+  for (let iterator of data.to) {
+    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
+
+    if (targetUserSocket) {
+      GL_IO.to(targetUserSocket as string).emit(
+        SocketEventEnum.UPDATE_CONVER_AFTER_CHANGE_INFO,
+        data
+      )
+    }
+  }
+}
