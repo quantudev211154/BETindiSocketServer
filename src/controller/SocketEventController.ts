@@ -1,15 +1,21 @@
 import { SocketEventEnum } from '../enum/SocketEventConstants'
 import { FireConnectionPayloadType } from '../types/FireConnectionPayloadType'
-import { SendFriendInvitationPayloadType } from '../types/SendFriendInvitationPayloadType'
-import { SendMsgPayloadType } from '../types/SendMsgPayloadType'
 import { TypingPayloadType } from '../types/TypingPayloadType'
-import { checkExistingUserSocket } from '../utils/CheckExistingUserSocket'
 import { DisconnectPayloadType } from '../types/DisconnectPayloadType'
 import { RevokeMsgType } from '../types/RevokeMsgType'
+import SocketManager from '../class/SocketUsersManager'
+import {
+  sendDataToMultipleSocketIds,
+  sendDataToSocketId,
+} from '../utils/SendDataToSocketIds'
 
-export const onFireConnection = ({ userId }: FireConnectionPayloadType) => {
-  GL_ONLINE_USERS.set(userId, GL_SOCKET.id)
-  // console.log('NEW USER: ' + userId + ' - ' + GL_SOCKET.id)
+export const onFireConnection = ({
+  userId,
+  socketId,
+  flag,
+}: FireConnectionPayloadType) => {
+  SocketManager.addUser({ userId, socketId, flag })
+  console.log(SocketManager.getUsers())
 }
 
 export const onTypingMsg = ({
@@ -20,145 +26,65 @@ export const onTypingMsg = ({
 }: TypingPayloadType) => {
   const targetUserSocket = GL_ONLINE_USERS.get(targetUserId)
 
-  if (targetUserSocket)
-    GL_IO.to(targetUserSocket as string).emit(
-      SocketEventEnum.CHANGE_TYPING_STATE,
-      { conversationId, currentUserId, targetUserId, isTyping }
-    )
+  // if (targetUserSocket)
+  //   GL_IO.to(targetUserSocket as string).emit(
+  //     SocketEventEnum.CHANGE_TYPING_STATE,
+  //     { conversationId, currentUserId, targetUserId, isTyping }
+  //   )
 }
 
 export const onSendMsg = (data: any) => {
-  for (let iterator of data.to) {
-    // console.log(iterator.id + ' ' + iterator.fullName)
-    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
-
-    if (targetUserSocket) {
-      GL_IO.to(targetUserSocket as string).emit(
-        SocketEventEnum.RECEIVE_MSG,
-        data
-      )
-    }
-  }
-}
-
-export const onDisconnect = ({ userId }: DisconnectPayloadType) => {
-  GL_ONLINE_USERS.delete(userId)
-}
-
-export const onRevokeMsg = ({
-  conversation,
-  message,
-  targetUserId,
-}: RevokeMsgType) => {
-  const targetUserSocket = GL_ONLINE_USERS.get(targetUserId)
-
-  if (targetUserSocket) {
-    GL_IO.to(targetUserSocket as string).emit(SocketEventEnum.REVOKE_MSG, {
-      conversation,
-      message,
-      targetUserId,
-    })
-  }
+  sendDataToMultipleSocketIds(data, SocketEventEnum.RECEIVE_MSG)
 }
 
 export const onUpdateMsg = (data: any) => {
-  for (let iterator of data.to) {
-    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
+  sendDataToMultipleSocketIds(data, SocketEventEnum.UPDATE_MSG)
+}
 
-    if (targetUserSocket) {
-      GL_IO.to(targetUserSocket as string).emit(
-        SocketEventEnum.UPDATE_MSG,
-        data
-      )
-    }
-  }
+export const onDisconnect = ({ flag }: DisconnectPayloadType) => {
+  SocketManager.removeUser(flag)
+}
+
+export const onRevokeMsg = (data: any) => {
+  sendDataToMultipleSocketIds(data, SocketEventEnum.REVOKE_MSG)
 }
 
 export const onAddMembers = (data: any) => {
-  for (let iterator of data.to) {
-    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
-
-    if (targetUserSocket) {
-      GL_IO.to(targetUserSocket as string).emit(
-        SocketEventEnum.UPDATE_MEMBERS,
-        data
-      )
-    }
-  }
+  sendDataToMultipleSocketIds(data, SocketEventEnum.UPDATE_MEMBERS)
 }
 
 export const onCreateConver = (data: any) => {
-  for (let iterator of data.to) {
-    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
-
-    if (targetUserSocket) {
-      GL_IO.to(targetUserSocket as string).emit(
-        SocketEventEnum.UPDATE_CONVERLIST_AFTER_CREATE,
-        data
-      )
-    }
-  }
+  sendDataToMultipleSocketIds(
+    data,
+    SocketEventEnum.UPDATE_CONVERLIST_AFTER_CREATE
+  )
 }
 
 export const onDeleteConver = (data: any) => {
-  for (let iterator of data.to) {
-    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
-
-    if (targetUserSocket) {
-      GL_IO.to(targetUserSocket as string).emit(
-        SocketEventEnum.UPDATE_CONVERLIST_AFTER_DELETE,
-        data
-      )
-    }
-  }
+  sendDataToMultipleSocketIds(
+    data,
+    SocketEventEnum.UPDATE_CONVERLIST_AFTER_DELETE
+  )
 }
 
 export const onChangeStatusForParticipant = (data: any) => {
-  const targetUserSocket = GL_ONLINE_USERS.get(data.to.id)
-
-  if (targetUserSocket) {
-    GL_IO.to(targetUserSocket as string).emit(
-      SocketEventEnum.UPDATE_STATUS_FOR_PARTICIPANT,
-      data
-    )
-  }
+  sendDataToSocketId(data, SocketEventEnum.UPDATE_STATUS_FOR_PARTICIPANT)
 }
 
 export const onOutGroup = (data: any) => {
-  for (let iterator of data.to) {
-    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
-
-    if (targetUserSocket) {
-      GL_IO.to(targetUserSocket as string).emit(
-        SocketEventEnum.UPDATE_CONVERLIST_AFTER_OUT,
-        data
-      )
-    }
-  }
+  sendDataToMultipleSocketIds(data, SocketEventEnum.UPDATE_CONVERLIST_AFTER_OUT)
 }
 
 export const onChangeRoleOfParticipant = (data: any) => {
-  for (let iterator of data.to) {
-    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
-
-    if (targetUserSocket) {
-      GL_IO.to(targetUserSocket as string).emit(
-        SocketEventEnum.UPDATE_CONVERLIST_AFTER_CHANGE_ROLE,
-        data
-      )
-    }
-  }
+  sendDataToMultipleSocketIds(
+    data,
+    SocketEventEnum.UPDATE_CONVERLIST_AFTER_CHANGE_ROLE
+  )
 }
 
 export const onChangeConverInfo = (data: any) => {
-  for (let iterator of data.to) {
-    const targetUserSocket = GL_ONLINE_USERS.get(iterator.id)
-
-    if (targetUserSocket) {
-      GL_IO.to(targetUserSocket as string).emit(
-        SocketEventEnum.UPDATE_CONVER_AFTER_CHANGE_INFO,
-        data
-      )
-    }
-  }
+  sendDataToMultipleSocketIds(
+    data,
+    SocketEventEnum.UPDATE_CONVER_AFTER_CHANGE_INFO
+  )
 }

@@ -17,9 +17,13 @@ import {
 import { SocketEventEnum } from '../enum/SocketEventConstants'
 
 export const handleSocketEvent = (socket: Socket) => {
-  global.GL_SOCKET = socket
-
-  socket.on(SocketEventEnum.FIRE_CONNECTION, onFireConnection)
+  socket.on(SocketEventEnum.FIRE_CONNECTION, (data: any) => {
+    onFireConnection({
+      userId: data.userId,
+      flag: data.flag,
+      socketId: socket.id,
+    })
+  })
 
   socket.on(SocketEventEnum.CHANGE_TYPING_STATE, onTypingMsg)
 

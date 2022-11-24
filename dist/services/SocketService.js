@@ -4,8 +4,13 @@ exports.handleSocketEvent = void 0;
 const SocketEventController_1 = require("../controller/SocketEventController");
 const SocketEventConstants_1 = require("../enum/SocketEventConstants");
 const handleSocketEvent = (socket) => {
-    global.GL_SOCKET = socket;
-    socket.on(SocketEventConstants_1.SocketEventEnum.FIRE_CONNECTION, SocketEventController_1.onFireConnection);
+    socket.on(SocketEventConstants_1.SocketEventEnum.FIRE_CONNECTION, (data) => {
+        (0, SocketEventController_1.onFireConnection)({
+            userId: data.userId,
+            flag: data.flag,
+            socketId: socket.id,
+        });
+    });
     socket.on(SocketEventConstants_1.SocketEventEnum.CHANGE_TYPING_STATE, SocketEventController_1.onTypingMsg);
     socket.on(SocketEventConstants_1.SocketEventEnum.SEND_MSG, SocketEventController_1.onSendMsg);
     socket.on(SocketEventConstants_1.SocketEventEnum.DISCONNECT, SocketEventController_1.onDisconnect);
