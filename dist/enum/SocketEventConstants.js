@@ -29,4 +29,6 @@ var SocketEventEnum;
     SocketEventEnum["UPDATE_CONVERLIST_AFTER_CHANGE_ROLE"] = "UPDATE_CONVERLIST_AFTER_CHANGE_ROLE";
     SocketEventEnum["CHANGE_CONVER_INFO"] = "CHANGE_CONVER_INFO";
     SocketEventEnum["UPDATE_CONVER_AFTER_CHANGE_INFO"] = "UPDATE_CONVER_AFTER_CHANGE_INFO";
+    SocketEventEnum["REMOVE_MEMBER_OUT_OF_GROUP"] = "REMOVE_MEMBER_OUT_OF_GROUP";
+    SocketEventEnum["UPDATE_AFTER_REMOVE_MEMBER"] = "UPDATE_AFTER_REMOVE_MEMBER";
 })(SocketEventEnum = exports.SocketEventEnum || (exports.SocketEventEnum = {}));

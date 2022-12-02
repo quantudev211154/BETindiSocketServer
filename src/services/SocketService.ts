@@ -9,6 +9,7 @@ import {
   onDisconnect,
   onFireConnection,
   onOutGroup,
+  onRemoveMemberOutOfGroup,
   onRevokeMsg,
   onSendMsg,
   onTypingMsg,
@@ -54,4 +55,9 @@ export const handleSocketEvent = (socket: Socket) => {
   )
 
   socket.on(SocketEventEnum.CHANGE_CONVER_INFO, onChangeConverInfo)
+
+  socket.on(
+    SocketEventEnum.REMOVE_MEMBER_OUT_OF_GROUP,
+    onRemoveMemberOutOfGroup
+  )
 }

@@ -2,7 +2,6 @@ import { SocketEventEnum } from '../enum/SocketEventConstants'
 import { FireConnectionPayloadType } from '../types/FireConnectionPayloadType'
 import { TypingPayloadType } from '../types/TypingPayloadType'
 import { DisconnectPayloadType } from '../types/DisconnectPayloadType'
-import { RevokeMsgType } from '../types/RevokeMsgType'
 import SocketManager from '../class/SocketUsersManager'
 import {
   sendDataToMultipleSocketIds,
@@ -87,4 +86,8 @@ export const onChangeConverInfo = (data: any) => {
     data,
     SocketEventEnum.UPDATE_CONVER_AFTER_CHANGE_INFO
   )
+}
+
+export const onRemoveMemberOutOfGroup = (data: any) => {
+  sendDataToMultipleSocketIds(data, SocketEventEnum.UPDATE_AFTER_REMOVE_MEMBER)
 }

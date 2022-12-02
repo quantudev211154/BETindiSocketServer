@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onChangeConverInfo = exports.onChangeRoleOfParticipant = exports.onOutGroup = exports.onChangeStatusForParticipant = exports.onDeleteConver = exports.onCreateConver = exports.onAddMembers = exports.onRevokeMsg = exports.onDisconnect = exports.onUpdateMsg = exports.onSendMsg = exports.onTypingMsg = exports.onFireConnection = void 0;
+exports.onRemoveMemberOutOfGroup = exports.onChangeConverInfo = exports.onChangeRoleOfParticipant = exports.onOutGroup = exports.onChangeStatusForParticipant = exports.onDeleteConver = exports.onCreateConver = exports.onAddMembers = exports.onRevokeMsg = exports.onDisconnect = exports.onUpdateMsg = exports.onSendMsg = exports.onTypingMsg = exports.onFireConnection = void 0;
 const SocketEventConstants_1 = require("../enum/SocketEventConstants");
 const SocketUsersManager_1 = __importDefault(require("../class/SocketUsersManager"));
 const SendDataToSocketIds_1 = require("../utils/SendDataToSocketIds");
@@ -65,3 +65,7 @@ const onChangeConverInfo = (data) => {
     (0, SendDataToSocketIds_1.sendDataToMultipleSocketIds)(data, SocketEventConstants_1.SocketEventEnum.UPDATE_CONVER_AFTER_CHANGE_INFO);
 };
 exports.onChangeConverInfo = onChangeConverInfo;
+const onRemoveMemberOutOfGroup = (data) => {
+    (0, SendDataToSocketIds_1.sendDataToMultipleSocketIds)(data, SocketEventConstants_1.SocketEventEnum.UPDATE_AFTER_REMOVE_MEMBER);
+};
+exports.onRemoveMemberOutOfGroup = onRemoveMemberOutOfGroup;

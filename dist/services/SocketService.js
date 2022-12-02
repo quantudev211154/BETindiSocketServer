@@ -23,5 +23,6 @@ const handleSocketEvent = (socket) => {
     socket.on(SocketEventConstants_1.SocketEventEnum.OUT_GROUP, SocketEventController_1.onOutGroup);
     socket.on(SocketEventConstants_1.SocketEventEnum.CHANGE_ROLE_OF_PARTICIPANT, SocketEventController_1.onChangeRoleOfParticipant);
     socket.on(SocketEventConstants_1.SocketEventEnum.CHANGE_CONVER_INFO, SocketEventController_1.onChangeConverInfo);
+    socket.on(SocketEventConstants_1.SocketEventEnum.REMOVE_MEMBER_OUT_OF_GROUP, SocketEventController_1.onRemoveMemberOutOfGroup);
 };
 exports.handleSocketEvent = handleSocketEvent;
